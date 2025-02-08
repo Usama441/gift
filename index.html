@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Combined Valentine's Day Card and I Love You Animation</title>
+  <title>Valentine's Day Celebration</title>
   <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Valentine's Day Heading -->
+  <h1 id="valentine-heading">Happy Valentine's Day</h1>
   <!-- Valentine's Day Card -->
   <div id="card">
-    <center><h1></h1></center>
+    
+
     <div class="heart" id="heart1">
       <div id="half1">
         <div id="circle"></div>
@@ -20,7 +24,7 @@
       </div>
     </div>
     <div id="message">
-      <h2>Happy Valentines Day Humaira</h2>
+      <h2>Happy Valentines Day Humaira </h2>
     </div>
     <div class="heart" id="heart2">
       <div id="half1">
@@ -62,8 +66,12 @@
   </audio>
   <div class="sound">sound</div>
 
+  <!-- Canvas for Fireworks -->
+  <canvas id="fireworks-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+
   <!-- Scripts -->
   <script src='https://cdn.jsdelivr.net/mojs/latest/mo.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>

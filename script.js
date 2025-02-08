@@ -1,6 +1,23 @@
 // Valentine's Day Card Script (if any)
 // Add any JavaScript specific to the Valentine's Day card here.
 
+// Initialize Canvas Confetti
+const canvas = document.getElementById('fireworks-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Function to create fireworks
+function createFireworks() {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+}
+
+// Run fireworks every 2 seconds
+setInterval(createFireworks, 2000);
 // I Love You Animation Script
 const qs = document.querySelector.bind(document);
 const easingHeart = mojs.easing.path(

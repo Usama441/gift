@@ -1,16 +1,42 @@
+
+#valentine-heading {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    text-align: center;
+    color: #ff1493;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: float 3s ease-in-out infinite;
+    margin-top: 1px;
+  }
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
 /* Valentine's Day Card Styles */
 body {
     background-color: #ddd;
     font-family: 'Poiret One', Segoe UI Light, cursive;
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center horizontally */
+    min-height: 100vh; /* Ensure body takes up full viewport height */
+    margin: 0; /* Remove default body margin */
   }
   
   #card {
-    position: absolute;
-    top: 100px;
+    
+    margin-top: 50px;
+    text-align: center;
     width: 460px;
     height: 260px;
     left: 50%;
-    margin-left: -230px;
+    margin-left: 4px;
   }
   
   #card .heart {
