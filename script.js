@@ -432,6 +432,40 @@ const copyLinkButton = document.getElementById('copy-link');
 // Base URL for GitHub Pages
 const baseUrl = 'https://Usama441.github.io/gift'; // Replace with your GitHub Pages URL
 
+// Function to parse URL parameters
+function getUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  const receiver = params.get('receiver');
+  const note = params.get('note');
+  return { receiver, note };
+}
+
+// Function to update the card with receiver's name and note
+function updateCardContent(receiver, note) {
+  const userNameElement = document.getElementById('user-name');
+  const messageElement = document.getElementById('message');
+
+  if (receiver) {
+    userNameElement.textContent = receiver;
+  }
+
+  if (note) {
+    const noteElement = document.createElement('p');
+    noteElement.textContent = note;
+    noteElement.style.color = '#fff';
+    noteElement.style.marginTop = '10px';
+    messageElement.appendChild(noteElement);
+  }
+}
+
+// On page load, check for URL parameters and update the card
+window.onload = () => {
+  const { receiver, note } = getUrlParams();
+  if (receiver || note) {
+    updateCardContent(receiver, note);
+  }
+};
+
 // Open popup when share button is clicked
 shareButton.addEventListener('click', () => {
   overlay.style.display = 'block';
