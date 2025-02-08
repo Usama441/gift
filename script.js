@@ -417,3 +417,74 @@ const toggleSound = () => {
   };
 };
 el.sound.addEventListener("click", toggleSound());
+
+// Get elements
+const shareButton = document.getElementById('share-button');
+const overlay = document.getElementById('overlay');
+const sharePopup = document.getElementById('share-popup');
+const closePopup = document.getElementById('close-popup');
+const shareForm = document.getElementById('share-form');
+const shareLinkContainer = document.getElementById('share-link-container');
+const shareLinkInput = document.getElementById('share-link');
+const copyLinkButton = document.getElementById('copy-link');
+
+// Open popup when share button is clicked
+shareButton.addEventListener('click', () => {
+  overlay.style.display = 'block';
+  sharePopup.style.display = 'block';
+  pauseAnimations(); // Pause all animations
+});
+
+// Close popup when close button is clicked
+closePopup.addEventListener('click', () => {
+  overlay.style.display = 'none';
+  sharePopup.style.display = 'none';
+  resumeAnimations(); // Resume all animations
+});
+
+// Close popup when clicking outside the popup
+overlay.addEventListener('click', () => {
+  overlay.style.display = 'none';
+  sharePopup.style.display = 'none';
+  resumeAnimations(); // Resume all animations
+});
+
+// Handle form submission
+shareForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Get receiver's name and special note
+  const receiverName = document.getElementById('receiver-name').value;
+  const specialNote = document.getElementById('special-note').value;
+
+  // Generate shareable link
+  const baseUrl = window.location.href.split('?')[0]; // Get current URL without query params
+  const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
+
+  // Display the shareable link
+  shareLinkInput.value = shareableLink;
+  shareLinkContainer.style.display = 'block';
+});
+
+// Copy link to clipboard
+copyLinkButton.addEventListener('click', () => {
+  shareLinkInput.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+});
+
+// Function to pause animations
+function pauseAnimations() {
+  const hearts = document.querySelectorAll('.heart');
+  hearts.forEach((heart) => {
+    heart.style.animationPlayState = 'paused';
+  });
+}
+
+// Function to resume animations
+function resumeAnimations() {
+  const hearts = document.querySelectorAll('.heart');
+  hearts.forEach((heart) => {
+    heart.style.animationPlayState = 'running';
+  });
+}
