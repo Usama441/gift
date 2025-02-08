@@ -428,6 +428,9 @@ const shareLinkContainer = document.getElementById('share-link-container');
 const shareLinkInput = document.getElementById('share-link');
 const copyLinkButton = document.getElementById('copy-link');
 
+// Base URL for GitHub Pages
+const baseUrl = 'https://Usama441.github.io/gift'; // Replace with your GitHub Pages URL
+
 // Open popup when share button is clicked
 shareButton.addEventListener('click', () => {
   overlay.style.display = 'block';
@@ -458,7 +461,6 @@ shareForm.addEventListener('submit', (e) => {
   const specialNote = document.getElementById('special-note').value;
 
   // Generate shareable link
-  const baseUrl = window.location.href.split('?')[0]; // Get current URL without query params
   const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
 
   // Display the shareable link
