@@ -18,6 +18,7 @@ function createFireworks() {
 
 // Run fireworks every 2 seconds
 setInterval(createFireworks, 2000);
+
 // I Love You Animation Script
 const qs = document.querySelector.bind(document);
 const easingHeart = mojs.easing.path(
@@ -471,8 +472,14 @@ shareForm.addEventListener('submit', (e) => {
 // Copy link to clipboard
 copyLinkButton.addEventListener('click', () => {
   shareLinkInput.select();
-  document.execCommand('copy');
-  alert('Link copied to clipboard!');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+      alert('Link copied to clipboard!');
+    });
+  } else {
+    document.execCommand('copy');
+    alert('Link copied to clipboard!');
+  }
 });
 
 // Function to pause animations
