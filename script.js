@@ -469,6 +469,19 @@ window.onload = () => {
   if (receiver || note) {
     updateCardContent(receiver, note);
   }
+
+  // Browser detection code
+  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+  const browserMessage = document.getElementById('browser-message');
+
+  if (!isChrome) {
+    browserMessage.style.display = 'block';
+  }
+
+  // Close the message when the close button is clicked
+  document.getElementById('close-message').addEventListener('click', () => {
+    browserMessage.style.display = 'none';
+  });
 };
 
 // Open popup when share button is clicked

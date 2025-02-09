@@ -1,4 +1,26 @@
 /* Share Button */
+#browser-message {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffcc00;
+  color: #000;
+  text-align: center;
+  padding: 10px;
+  z-index: 10000;
+}
+
+#close-message {
+  margin-left: 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
 #share-button {
   padding: 10px 20px;
   font-size: 16px;
