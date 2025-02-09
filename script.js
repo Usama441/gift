@@ -1,5 +1,5 @@
-// Valentine's Day Card Script
-// Ensure compatibility with all major browsers, including Safari, Chrome, Firefox, and Edge.
+// Valentine's Day Card Script (if any)
+// Add any JavaScript specific to the Valentine's Day card here.
 
 // Initialize Canvas Confetti
 const canvas = document.getElementById('fireworks-canvas');
@@ -112,9 +112,7 @@ const crtLoveTl = () => {
       },
       onComplete: () => {
         [el.l, el.o, el.v, el.e].forEach((el) => (el.style.opacity = 0));
-        el.blop.play().catch((error) => {
-          console.error("Audio playback failed:", error);
-        });
+        el.blop.play();
       },
     }),
 
@@ -122,9 +120,7 @@ const crtLoveTl = () => {
       duration: move * 2 + boom,
       onComplete: () => {
         [el.y, el.o2].forEach((el) => (el.style.opacity = 0));
-        el.blop.play().catch((error) => {
-          console.error("Audio playback failed:", error);
-        });
+        el.blop.play();
       },
     }),
 
@@ -132,9 +128,7 @@ const crtLoveTl = () => {
       duration: move * 3 + boom * 2 - delta,
       onComplete: () => {
         el.i.style.opacity = 0;
-        el.blop.play().catch((error) => {
-          console.error("Audio playback failed:", error);
-        });
+        el.blop.play();
       },
     }),
 
@@ -142,9 +136,7 @@ const crtLoveTl = () => {
       duration: move * 3 + boom * 2,
       onComplete: () => {
         el.u.style.opacity = 0;
-        el.blup.play().catch((error) => {
-          console.error("Audio playback failed:", error);
-        });
+        el.blup.play();
       },
     }),
 
