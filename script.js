@@ -4,7 +4,20 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Function to create fireworks
+// Check for missing features
+const browserMessage = document.getElementById('browser-message');
+if (!window.AudioContext && !window.webkitAudioContext) {
+  browserMessage.style.display = 'block';
+}
+
+// Close the message when the close button is clicked
+document.getElementById('close-message').addEventListener('click', () => {
+  browserMessage.style.display = 'none';
+});
+
+// Fireworks Animation
+let fireworksInterval;
+
 function createFireworks() {
   confetti({
     particleCount: 100,
@@ -13,14 +26,18 @@ function createFireworks() {
   });
 }
 
-// Run fireworks every 2 seconds
-setInterval(createFireworks, 2000);
+function startFireworks() {
+  fireworksInterval = setInterval(createFireworks, 2000);
+}
 
-// I Love You Animation Script
+document.addEventListener('click', () => {
+  startFireworks();
+  document.removeEventListener('click', startFireworks);
+}, { once: true });
+
+// I Love You Animation
 const qs = document.querySelector.bind(document);
-const easingHeart = mojs.easing.path(
-  "M0,100C2.9,86.7,33.6-7.3,46-7.3s15.2,22.7,26,22.7S89,0,100,0"
-);
+const easingHeart = mojs.easing.path("M0,100C2.9,86.7,33.6-7.3,46-7.3s15.2,22.7,26,22.7S89,0,100,0");
 
 const el = {
   container: qs(".mo-container"),
@@ -53,7 +70,7 @@ class Heart extends mojs.CustomShape {
 mojs.addShape("heart", Heart);
 
 const crtBoom = (delay = 0, x = 0, rd = 46) => {
-  parent = el.container;
+  const parent = el.container;
   const crcl = new mojs.Shape({
     shape: "circle",
     fill: "none",
@@ -407,7 +424,16 @@ const volume = 0.2;
 el.blup.volume = volume;
 el.blop.volume = volume;
 
+let audioEnabled = false;
+
 const toggleSound = () => {
+  if (!audioEnabled) {
+    el.blup.play().then(() => {
+      el.blup.pause();
+      el.blup.currentTime = 0;
+      audioEnabled = true;
+    });
+  }
   let on = true;
   return () => {
     if (on) {
@@ -422,9 +448,10 @@ const toggleSound = () => {
     on = !on;
   };
 };
+
 el.sound.addEventListener("click", toggleSound());
 
-// Get elements
+// Share Functionality
 const shareButton = document.getElementById('share-button');
 const overlay = document.getElementById('overlay');
 const sharePopup = document.getElementById('share-popup');
@@ -434,10 +461,8 @@ const shareLinkContainer = document.getElementById('share-link-container');
 const shareLinkInput = document.getElementById('share-link');
 const copyLinkButton = document.getElementById('copy-link');
 
-// Base URL for GitHub Pages
-const baseUrl = 'https://Usama441.github.io/gift'; // Replace with your GitHub Pages URL
+const baseUrl = 'https://Usama441.github.io/gift';
 
-// Function to parse URL parameters
 function getUrlParams() {
   const params = new URLSearchParams(window.location.search);
   const receiver = params.get('receiver');
@@ -445,83 +470,60 @@ function getUrlParams() {
   return { receiver, note };
 }
 
-// Function to update the card with receiver's name and note
 function updateCardContent(receiver, note) {
   const userNameElement = document.getElementById('user-name');
   const messageElement = document.getElementById('message');
 
+  // Clear existing note
+  messageElement.querySelectorAll('p').forEach(p => p.remove());
+
   if (receiver) {
-    userNameElement.textContent = receiver;
+    userNameElement.textContent = decodeURIComponent(receiver);
   }
 
   if (note) {
     const noteElement = document.createElement('p');
-    noteElement.textContent = note;
+    noteElement.textContent = decodeURIComponent(note);
     noteElement.style.color = '#fff';
     noteElement.style.marginTop = '10px';
     messageElement.appendChild(noteElement);
   }
 }
 
-// On page load, check for URL parameters and update the card
 window.onload = () => {
   const { receiver, note } = getUrlParams();
   if (receiver || note) {
     updateCardContent(receiver, note);
   }
-
-  // Browser detection code
-  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-  const browserMessage = document.getElementById('browser-message');
-
-  if (!isChrome) {
-    browserMessage.style.display = 'block';
-  }
-
-  // Close the message when the close button is clicked
-  document.getElementById('close-message').addEventListener('click', () => {
-    browserMessage.style.display = 'none';
-  });
 };
 
-// Open popup when share button is clicked
 shareButton.addEventListener('click', () => {
   overlay.style.display = 'block';
   sharePopup.style.display = 'block';
-  pauseAnimations(); // Pause all animations
 });
 
-// Close popup when close button is clicked
 closePopup.addEventListener('click', () => {
   overlay.style.display = 'none';
   sharePopup.style.display = 'none';
-  resumeAnimations(); // Resume all animations
 });
 
-// Close popup when clicking outside the popup
 overlay.addEventListener('click', () => {
   overlay.style.display = 'none';
   sharePopup.style.display = 'none';
-  resumeAnimations(); // Resume all animations
 });
 
-// Handle form submission
 shareForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  // Get receiver's name and special note
   const receiverName = document.getElementById('receiver-name').value;
   const specialNote = document.getElementById('special-note').value;
 
-  // Generate shareable link
   const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
 
-  // Display the shareable link
   shareLinkInput.value = shareableLink;
   shareLinkContainer.style.display = 'block';
 });
 
-// Copy link to clipboard
 copyLinkButton.addEventListener('click', () => {
   shareLinkInput.select();
   if (navigator.clipboard) {
@@ -533,19 +535,3 @@ copyLinkButton.addEventListener('click', () => {
     alert('Link copied to clipboard!');
   }
 });
-
-// Function to pause animations
-function pauseAnimations() {
-  const hearts = document.querySelectorAll('.heart');
-  hearts.forEach((heart) => {
-    heart.style.animationPlayState = 'paused';
-  });
-}
-
-// Function to resume animations
-function resumeAnimations() {
-  const hearts = document.querySelectorAll('.heart');
-  hearts.forEach((heart) => {
-    heart.style.animationPlayState = 'running';
-  });
-}
