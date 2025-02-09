@@ -471,24 +471,21 @@ function getUrlParams() {
 }
 
 function updateCardContent(receiver, note) {
-  const userNameElement = document.getElementById('user-name');
-  const messageElement = document.getElementById('message');
+    const userNameElement = document.getElementById('user-name');
+    const noteDisplayElement = document.getElementById('note-display');  // Get the new element
 
-  // Clear existing note
-  messageElement.querySelectorAll('p').forEach(p => p.remove());
+    if (receiver) {
+      userNameElement.textContent = decodeURIComponent(receiver);
+    }
 
-  if (receiver) {
-    userNameElement.textContent = decodeURIComponent(receiver);
-  }
-
-  if (note) {
-    const noteElement = document.createElement('p');
-    noteElement.textContent = decodeURIComponent(note);
-    noteElement.style.color = '#fff';
-    noteElement.style.marginTop = '10px';
-    messageElement.appendChild(noteElement);
-  }
+    if (note) {
+        noteDisplayElement.textContent = decodeURIComponent(note); // Update its text content
+    } else {
+        noteDisplayElement.textContent = ''; // Clear the note if it's not provided
+    }
 }
+
+
 
 window.onload = () => {
   const { receiver, note } = getUrlParams();
@@ -512,17 +509,51 @@ overlay.addEventListener('click', () => {
   sharePopup.style.display = 'none';
 });
 
+// ... other code ...
+
 shareForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const receiverName = document.getElementById('receiver-name').value;
-  const specialNote = document.getElementById('special-note').value;
+    const receiverName = document.getElementById('receiver-name').value;
+    const specialNote = document.getElementById('special-note').value;
 
-  const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
 
-  shareLinkInput.value = shareableLink;
-  shareLinkContainer.style.display = 'block';
+    // Constraint: Limit note to 20 characters with feedback
+    if (specialNote.length > 20) {
+        alert('Special note should not exceed 20 characters.');
+        return; 
+    }
+
+    const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
+
+    shareLinkInput.value = shareableLink;
+    shareLinkContainer.style.display = 'block';
 });
+
+
+
+//Character Count Limit and message for the textarea
+
+const specialNoteTextarea = document.getElementById('special-note');
+const charCountMessage = document.createElement('p'); // Create a <p> element for the message
+charCountMessage.id = 'char-count-message';
+specialNoteTextarea.parentNode.insertBefore(charCountMessage, specialNoteTextarea.nextSibling); // Insert message
+
+
+specialNoteTextarea.addEventListener('input', () => {
+    const maxLength = 20;
+    if (specialNoteTextarea.value.length > maxLength) {
+      specialNoteTextarea.value = specialNoteTextarea.value.slice(0, maxLength); // Truncate the input
+    }
+    // Update the character count message
+    charCountMessage.textContent = `Note (max 20 characters): ${specialNoteTextarea.value.length}/20`;
+
+  });
+
+
+// ... rest of the code ...
+
+
 
 copyLinkButton.addEventListener('click', () => {
   shareLinkInput.select();
