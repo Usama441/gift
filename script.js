@@ -472,18 +472,20 @@ function getUrlParams() {
 
 function updateCardContent(receiver, note) {
     const userNameElement = document.getElementById('user-name');
-    const noteDisplayElement = document.getElementById('note-display');  // Get the new element
+    const noteDisplayElement = document.getElementById('note-display'); // Correct element
 
     if (receiver) {
-      userNameElement.textContent = decodeURIComponent(receiver);
+        userNameElement.textContent = decodeURIComponent(receiver);
     }
 
     if (note) {
-        noteDisplayElement.textContent = decodeURIComponent(note); // Update its text content
+        noteDisplayElement.textContent = decodeURIComponent(note);
     } else {
-        noteDisplayElement.textContent = ''; // Clear the note if it's not provided
+        noteDisplayElement.textContent = ''; // Or remove the element entirely if you prefer
     }
 }
+
+
 
 
 

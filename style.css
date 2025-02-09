@@ -52,35 +52,28 @@
 
 /* Popup Styles */
 .popup {
- display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffe6f2; /* Light pink background */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(255, 110, 180, 0.5); /* Pink shadow */
-    z-index: 1001; /* Above the overlay */
-    width: 90%; /* Responsive width */
-    max-width: 400px; /* Maximum width */
-    box-sizing: border-box; /* Include padding in width calculation */
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  z-index: 1001; /* Above the overlay */
 }
 
-.popup-content {
-  text-align: left; /* Align text to the left */
-}
 .popup-content h2 {
-  color: #ff69b4; /* Hot pink title */
-  margin-bottom: 20px;;
+  margin-bottom: 20px;
 }
 
 .popup-content label {
   display: block;
-    margin: 15px 0 8px;
-    font-weight: bold;
-    font-size: 1.2em; /* Larger font size */
-    color: #c71585; /* Medium violet red label text */
+  margin: 15px 0 8px; /* Increased margin for better spacing */
+  font-weight: bold;  /* Bold text */
+  font-size: 1.9em; /* Larger font size */
 }
 
 /* Responsive font size for labels */
@@ -91,27 +84,22 @@
 }
 .popup-content input,
 .popup-content textarea {
-   width: calc(100% - 22px); /* Adjust for padding and border */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ffb6c1; /* Light pink border */
-    border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in width calculation */
-    resize: vertical; /* Allow vertical resizing only */
-}
-.popup-content textarea {
-  height: 80px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 50px; /* Increased height for the textarea */
+  resize: vertical;
 }
 .popup-content button {
   padding: 10px 20px;
-    font-size: 16px;
-    background-color: #ff69b4; /* Hot pink */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(255, 0, 140, 0.5); /* Subtle shadow */
-    transition: background-color 0.3s ease;
+  font-size: 16px;
+  background-color: #ff1493;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .popup-content button:hover {
