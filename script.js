@@ -513,26 +513,93 @@ overlay.addEventListener('click', () => {
 
 // ... other code ...
 
-shareForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+shareForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const receiverName = document.getElementById('receiver-name').value;
-    const specialNote = document.getElementById('special-note').value;
+  const receiverName = document.getElementById('receiver-name').value;
+  const specialNote = document.getElementById('special-note').value;
+  const imageFile = document.getElementById('receiver-image').files[0];
 
+  // Validate note length
+  if (specialNote.length > 20) {
+    alert('Special note should not exceed 20 characters.');
+    return;
+  }
 
-    // Constraint: Limit note to 20 characters with feedback
-    if (specialNote.length > 20) {
-        alert('Special note should not exceed 20 characters.');
-        return; 
+  // Create FormData for file upload
+  const formData = new FormData();
+  formData.append('sender', 'Guest'); // Replace with actual sender name if available
+  formData.append('receiver', receiverName);
+  formData.append('note', specialNote);
+  if (imageFile) {
+    formData.append('image', imageFile);
+  }
+
+  // Send data to the backend
+  try {
+    const response = await fetch('http://localhost:5000/api/save', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to save data');
     }
 
-    const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
+    const data = await response.json();
+    console.log('Data saved:', data);
 
+    // Generate shareable link
+    const shareableLink = `${baseUrl}?receiver=${encodeURIComponent(receiverName)}&note=${encodeURIComponent(specialNote)}`;
     shareLinkInput.value = shareableLink;
     shareLinkContainer.style.display = 'block';
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Failed to save data. Please try again.');
+  }
 });
 
+async function fetchData(receiver, note) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/fetch?receiver=${encodeURIComponent(receiver)}&note=${encodeURIComponent(note)}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
 
+    const data = await response.json();
+    updateCardContent(data.receiver, data.note, data.image_url);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+function updateCardContent(receiver, note, imageUrl) {
+  const userNameElement = document.getElementById('user-name');
+  const noteDisplayElement = document.getElementById('note-display');
+  const imageElement = document.createElement('img');
+
+  if (receiver) {
+    userNameElement.textContent = receiver;
+  }
+
+  if (note) {
+    noteDisplayElement.textContent = note;
+  }
+
+  if (imageUrl) {
+    imageElement.src = imageUrl;
+    imageElement.alt = "Receiver's Image";
+    imageElement.style.width = '100px'; // Adjust size as needed
+    document.getElementById('message').appendChild(imageElement);
+  }
+}
+
+window.onload = () => {
+  const { receiver, note } = getUrlParams();
+  if (receiver || note) {
+    fetchData(receiver, note);
+  }
+};
 
 //Character Count Limit and message for the textarea
 
